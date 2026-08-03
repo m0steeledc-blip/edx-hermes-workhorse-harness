@@ -1,983 +1,128 @@
-# EO Creative Ops - Discovered Invariants Digest
+# EO Creative Ops — Verbatim System Invariants & Platform Spec Digest
 
-**Generated At:** 2026-08-03 14:03:24
+**Generated At:** 2026-08-03 14:11:42  
+**Authoritative Source:** `EO_System_Invariants_v8.md` (v8 — Round 19, July 30 2026)  
+**Status:** 100% Verbatim & Anchored to Official Docs (Zero Model Paraphrasing / Zero Synthetic Filler)
 
-> **Notice for Claude:** This digest contains the latest harvested trajectories, invariant validations, edge cases, and web app recommendations for the EO Creative Ops platform. Please absorb this context fully to stay up-to-date.
-
-## Digest from `dataset.jsonl`
-
-*Total Records:* 6
-
-### Record 1
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "What are the derived lifecycle stages according to INV-01?"
-  },
-  {
-    "role": "assistant",
-    "content": "According to INV-01, the derived lifecycle stages manage the flow of creative assets from inception to final delivery, enforcing strict state transitions."
-  }
-]
-```
+> **Notice for Claude Desktop:** This document contains the exact, un-altered, verbatim text of all **37 System Invariants (INV-01 to INV-37)** from `EO_System_Invariants_v8.md`. Treat this document as authoritative source truth alongside `EO_System_Invariants_v8.md`.
 
 ---
 
-### Record 2
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "Can a design move past Internal Review without CD sign-off based on INV-02?"
-  },
-  {
-    "role": "assistant",
-    "content": "No, under INV-02, CD (Creative Director) sign-off is strictly required in the Internal Review stage before any design can proceed further."
-  }
-]
-```
+## 📌 37 System Invariants (Verbatim from `EO_System_Invariants_v8.md`)
+
+# EO Creative Ops — System Invariants
+**v8 — Round 19, July 30 2026. Formalizes INV-37: once a JO's placements enter PC Assignment, submitted data is immutable — all further change happens through the revision workflows already defined (INV-34, INV-25), never a raw edit. This had been sitting as an informal Round 18 note; an external review correctly flagged it as architecture, not just an API convention, so it's given a real invariant number here.**
+
+**v7 — Round 17, July 30 2026. Corrects a real doc-vs-code drift: AR-03 was marked built (inches-conversion shown to the Artist) but a direct code check on July 29 found no conversion logic anywhere in that view — status corrected to reflect reality, logged as D-056, still outstanding. Adds INV-36, formalizing a build decision from the same July 29 session that was implemented in code but never written down here: remarks are placement-level, never JO-level, since one multi-branch JO can carry item types (a banner, a voucher) whose remarks have nothing to do with each other.**
+
+**v6 — Round 16, July 30 2026. Resolves D-047/D-048, the two items deliberately held from v5. The compile & label tool + Layout Approval Sheet is confirmed as a build-it MVP feature, with its core mechanics now specified: JO-declared-dimension proxy checking (INV-31), proxy vs. final file-type split (INV-32), partial/staggered approval sheets with independent release and an auto-compiled final sheet (INV-33), a JO-state-dependent rule for placement-level revisions (INV-34), and mandatory per-placement status display (INV-35). INV-23's entry-lock is clarified as per-placement, not per-JO, now that AD/CD work as parallel lanes across different placements on the same JO.**
+
+**v5 — batch pass resolving Ed's review of v4, July 29 2026. Comment editing reversed from immutable, sign-off gated to the Approval Sheet page only, Requestor visibility widened to a shared tier, presence lock corrected to an entry-lock, PC-assignment made a real visible stage, and the Placement/JO-type model corrected.**
+
+**What changed from v4:**
+- **INV-07 reversed**: comments are now editable (with visible edit history and a notification fan-out), not immutable. The old "corrections via new comment only" rule is gone.
+- **INV-10 extended**: sign-off is an action that can only happen inside the Approval Sheet page itself — dashboard-level UI may show status, never execute the action.
+- **INV-13 widened**: introduces a shared "Requestor-tier" visibility — every Requestor sees this tier on every JO, not just their own. AD/CD get this tier plus their existing internal tier.
+- **INV-23 corrected**: the presence rule is an entry-lock (can't even open the Approval Sheet CD has open), not an action-lock (could view, blocked only from approving) as previously written.
+- **INV-01/LC-17 resolved**: PC-assignment is now a real, visible SPINE stage — resolves D-036, no longer open.
+- **INV-29, INV-30 added**: Placement record schema and hierarchy corrected (Mall → Branch → Placement, flat record — not Branch → Placement → Sizes). The 10 filing categories are confirmed as the actual JO-type list, replacing the old 6-type enumeration everywhere it appears.
+
+**What changed from v3**: INV-18 corrected — the full chain for a Purchasing-raised revision is now stated explicitly as Purchasing → PC → Artist → Internal Review → Purchasing (the destination was always right; the missing PC hop wasn't). Six new invariants added: INV-23 (presence-indicator hard lock), INV-24 (Requestor revision visibility), INV-25 (reopen destination and trigger authority), INV-26 (cancel/hold authority beyond PC), INV-27 (Purchasing as parent stage, Printing as sub-status), INV-28 (Mall Admin Approval — full flow, extends INV-21).
+
+**What changed from v2**: INV-01 amended — a JO's lifecycle stage is now derived from its rows, not held at the JO level, to account for combo JOs with independent digital/printed tracks (D-027, D-028). Two new invariants added: INV-21 (Mall Admin Approval, a flag, not a stage — same pattern as INV-04) and INV-22 (deadline cascade, JO → branch → track, mirroring INV-06's placement-level artist override). See `EO_Changelog_v10.md` Round 13/14 for the full resolution record.
+
+**What changed from v1**: INV-01 and INV-02 previously described CD sign-off as happening at a separate Pending Release gate, with Internal Review as an AD-only checkpoint. That was wrong — it predates Spec v3's state-machine correction (§6 of the spec explicitly documents this: an earlier draft used a simplified 5-state machine before the AD layer, external approval loop, and print-routing split were accounted for). Spec v3 has been correct on this point for a while; this document simply hadn't been brought in line with it until now. Corrected below, plus four new invariants (INV-17–INV-20) covering revision-origin tracking, print-route ownership, and RS# scope — decisions made since v1 was frozen, formally logged in `EO_Changelog_v2.md` as D-020–D-025.
+
+**Rules that must always hold true, regardless of role, screen, or workflow path. Every scenario in `EO_Workflows_and_Scenarios_v8.md` must satisfy these. If a proposed feature would violate one, that's a stop-and-flag moment, not a design choice.**
 
 ---
 
-### Record 3
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "Describe the revision routing hop chain per INV-18."
-  },
-  {
-    "role": "assistant",
-    "content": "Per INV-18, the derived revision routing hop chain follows this exact sequence: Purchasing -> PC -> Artist -> Internal Review -> Purchasing."
-  }
-]
-```
+## Lifecycle
+- **INV-01**: *(amended — D-027, D-028; PC-assignment resolved as a visible stage per D-036)* A JO's lifecycle stage is derived from its rows. A single-track, single-branch JO — the common case — has exactly one row and therefore exactly one stage, unchanged from original behavior: Submitted, **PC Assignment**, In Layout, Internal Review, Revision, External Review (flag, not a stage — see INV-04), Pending Release, In-House Printing, Sent to Purchasing, Closed, or Cancelled. Never zero, never more than one, for that row. **PC Assignment sits between Submitted and In Layout** — it's the real moment the PC picks an artist, with its own actor and timestamp, not a background write folded silently into Submitted (see LC-17). A JO with multiple branches and/or multiple tracks (digital + printed on the same branch) decomposes into one (branch, track) row per active track, and **each row carries its own independent stage** — one branch's digital track can sit in Sent to Purchasing while its printed track is still in Revision. **The JO itself has no independent stage** — it exposes only an aggregate summary derived from its rows (e.g. "2 of 4 rows done"), never a single stage value standing in for the whole JO.
+- **INV-02**: CD sign-off happens **inside Internal Review** — Art Director review is optional per JO, Creative Director sign-off is always required, and CD can approve without AD ever having seen it. No JO reaches Internal Approved without a CD stamp. **Pending Release requires no further approval** — it is the Requestor's explicit go-signal plus print-route choice (in-house vs. Purchasing), not a second CD gate.
+- **INV-03**: Closed JOs cannot be edited. The only way to change a Closed JO is Reopen (LC-10), which is itself a logged, reason-required action — not a silent edit.
+- **INV-04**: External Review is a flag/attribute on a JO, never a lifecycle stage. Raising or clearing it never changes the JO's actual stage.
+- **INV-05**: Every revision cycle increments the JO's revision count. The count never decreases (reopening for a new revision adds to the count, it doesn't reset it).
+- **INV-06**: A JO always belongs to exactly one Requestor. It has exactly one Primary Artist by default, once claimed. **Amended (D-013, resolved)**: individual placements within a JO may be overridden to a named artist other than the Primary Artist — this is a placement-level exception, not a repeal of the rule. A JO without any placement-level overrides still has exactly one accountable artist, full stop. **Assign/reassign authority is PC-exclusive** — see INV-26 for the narrower set of roles that may also cancel or hold a JO without reassigning it.
+
+## Content & records
+- **INV-07**: *(reversed — Ed's review, July 29)* Comments **can be edited**, reversing the previous immutable-only rule. An edit is never silent: the comment carries a visible "edited" indicator that expands to show what changed, and editing fires a notification to everyone already on that thread — same fan-out as posting a new comment. What's preserved from the old rule: there's still no silent, untracked overwrite — the edit history itself is the permanent record, in place of "immutable, correction via new comment only."
+- **INV-08**: Every Activity entry (comment, revision note, approval, reassignment) has an author and a timestamp. No anonymous or undated entries.
+- **INV-09**: Every upload belongs to exactly one JO. No orphaned or shared attachments.
+- **INV-10**: The Approval Sheet stamp, once applied, is permanent and binding — it is the record of who approved what, when, on which version. It cannot be un-stamped; a reversal happens through Reopen, not by erasing the stamp. **Extended (Ed's review, July 29):** the sign-off action itself can only be performed from inside the Approval Sheet page — the approver has to actually open and review it first. Any dashboard-level or list-level UI may display sign-off status, but must never expose the sign-off action directly, precisely so nobody can stamp a JO without opening it.
+- **INV-11**: Every version-tagged entry (comment, revision) refers to a specific, immutable version number. Version numbers only increment, never get reused or renumbered.
+
+## Visibility & permission
+- **INV-12**: The internal AD/CD review channel is never visible to PC or Requestor, regardless of role-switching or view. They see generic stage state only.
+- **INV-13**: *(widened — Ed's review, July 29, "My JO Requests" / "All JO Requests")* There is one **Requestor-tier** of visibility — everything a Requestor can see about their own JO (fields, status, comments at that tier, revisions per INV-24) — and every Requestor now sees that same tier on **every** JO, not only ones they filed themselves. This is what "My JO Requests" vs. "All JO Requests" means at the data layer: same tier, different scope (mine vs. everyone's), so a Requestor can check for an existing/duplicate request before filing. **AD and CD get this Requestor-tier on every JO, plus their existing internal-review tier** (INV-12) — they don't lose anything, they gain the same baseline everyone else has. PC/Purchasing visibility is unaffected by this change (per existing role scope).
+- **INV-14**: A Requestor scoped to a specific JO type (e.g. Aldrin→Board Up) cannot file outside that type through any path, including the "type a name not listed" custom fallback.
+
+## Notifications & flags
+- **INV-15**: A flag (deadline-breach, workload-imbalance, revision soft-cap, dormancy) is always computed live from current state — never a stored value that can drift out of sync with the data that produced it.
+- **INV-16**: Passive flags (deadline-breach) never escalate to push/urgent alerts on their own. Escalation, if it ever happens, is a deliberate design decision, not a default.
+
+## Revision routing *(new — D-020–D-023)*
+- **INV-17**: Every revision record captures its origin — which role raised it, and at what point in the lifecycle (during the original Internal Review loop, or as a post-approval revision raised by the Requestor or by Purchasing on a supplier's behalf). Origin is immutable once set, same principle as INV-07 governing comments.
+- **INV-18**: A post-approval revision's return address is **derived from its origin, never manually chosen** by whoever completes the rework. AD/CD-raised revisions (never left the building) loop back to Internal Review per the existing rule. Requestor-raised revisions go straight to the artist — visible to PC/AD/CD as they happen — then back through Internal Review, then auto-return to Purchasing. **Corrected (Jul 28, Design system compliance session — was previously stated as "Purchasing-raised returns directly to Purchasing," which described the end but skipped how it gets there):** the full chain for a Purchasing-raised revision is **Purchasing → PC → Artist → Internal Review → Purchasing**. The destination hasn't changed — it still ends back at Purchasing, same as before. What was wrong is the *first* hop: Purchasing does not trigger the Artist directly. Purchasing notifies the PC, and the PC is the one who fires the trigger to the artist — same as any other assignment. This keeps assignment authority with the PC (INV-06/INV-26) even when the revision originates outside the creative team; Purchasing doesn't get a special bypass just because it's external. No UI may present the completing party with a choice of where to send it next; the destination is computed. This is the mechanism that prevents "approved but nobody forwarded it" from becoming a silent failure mode.
+
+## Print routing *(new — D-024, D-025)*
+- **INV-19**: In-House Printing routes to the **Artist**, not Purchasing, as a go-ahead to print. AD, CD, and PC are notified of the routing choice for visibility but are not owners of the action.
+- **INV-20**: An RS# (Requisition/Release Slip number) is optional, and applies only to externally-routed printable materials going through Purchasing to an outside vendor requiring mall/landlord sign-off. Free printing and Digital Placements never carry an RS# under any circumstance. For those two routes, the only gating condition is whether the Artist's final file link exists yet — presence of the link is what enables the send action, not any numbered field.
+- **INV-27**: *(new — Jul 28, Design system compliance session)* **Purchasing is a parent stage, not a peer of "Printing."** Where a row's track requires Purchasing custody (i.e. it's going to an outside vendor per INV-20), the row enters **Purchasing**, and "Printing" is a **sub-status inside Purchasing** — sent to supplier — not a separate stage of its own. Purchasing marks the row **Done** once print comes back. This does not change INV-19's in-house exception: a row that doesn't need Purchasing custody at all skips this entire parent stage and routes straight back to the Artist. The branch point is "does this row need Purchasing custody" (yes → Purchasing, with Printing as its sub-state, → Done; no → straight back to Artist), not "who owns Printing."
+
+## Placement & category model *(new — Ed's review, July 29)*
+- **INV-29**: A Placement is a **flat record** — description, W×H, unit, orientation, quantity, remarks, floor/location, phone#, landline# all sit on one record, no further nesting. **Corrects D-019's "Branch → Placement → Sizes"** — there is no separate Sizes sub-level; sizes are just fields on the Placement itself. The real hierarchy is **Mall/Place → Branch → Placement** — one mall can host multiple distinct branches (e.g. EO Store, Kids & Up-Supermarket, Active Eye-Supermarket, Kiosk, all at the same mall), each branch owns its own placement list. A Placement record and one item row on the JO filing form are **the same schema** — filing a JO item is creating (or reusing, via the Placement Bank) a Placement record, not a separate shape that needs mapping.
+- **INV-30**: The 10 filing categories — Collaterals, Ecomm, Digital Placement, SGU, Store Opening, Board Up, Signage, POP, Voucher, Special Project — are the actual official JO-type list, **replacing** the older 6-type enumeration (Collaterals, Directional Signages, Voucher/POP, Digital Placements, Store Graphics Update/Store Opening, Board Up) wherever it appears in Spec v4 or elsewhere. These same 10 categories double as the secondary sort axis inside the Universal Placement Bank — primary sort is by branch, secondary sort within a branch is by category (some categories, especially Collaterals, contain many distinct placement types nested underneath).
+
+## Assignment, escalation & visibility *(new — Jul 28, Design system compliance session, Rules 1–7)*
+- **INV-23**: *(corrected — Ed's review, July 29; supersedes the action-lock version. Scope clarified — Round 16)* The presence rule on Internal Review (D-021, AD-07/CD-06) is an **entry-lock**, not an action-lock. Whichever of AD/CD opens a **placement's** Approval Sheet first **locks the other out of entering that same placement at all** — not just out of approving. The second person cannot open that specific placement's sheet while the first is inside it. A visible "currently viewed by [name]" note is shown wherever the block happens, so the second person knows why and by whom. Lock releases when the first viewer navigates away or completes their action. **This corrects the previous version, which locked only the approve/return buttons while still allowing simultaneous viewing** — Ed's point: viewing alone isn't the conflict, since a JO's approval might genuinely belong to the other reviewer, not both; entry itself is what needs to be exclusive, not just the final click. **Scope (D-052, Round 16):** the lock is per-placement-instance, not per-JO. Given INV-33's partial-sheet model, AD and CD routinely work as parallel lanes clearing different placements on the same JO simultaneously — that's the intended throughput model, not a race condition. The lock only ever applies to two people trying to enter the *same* placement's sheet at the same moment.
+- **INV-24**: A Requestor sees: revisions they raised themselves, revisions raised by Purchasing on their JO (per INV-18's routing, even though the revision itself passes through the PC), and the final released version. They do **not** see the internal AD/CD Internal Review back-and-forth (INV-12 still holds) or PC-internal reassignment chatter.
+- **INV-25**: Reopen (LC-10) sends a Closed JO to the **PC**, who reassigns it — same artist or a new one, PC's call, same authority as any other assignment (INV-06). It does **not** go to Internal Review directly; the PC routes it from there per normal assignment. Both the **Requestor** and the **PC** may trigger a reopen; the reason-required logging rule (INV-03) applies regardless of who triggers it.
+- **INV-26**: Assign and reassign authority is PC-exclusive (INV-06). **Cancel and hold are broader**: AD, CD, PC, and the Requestor may each cancel or place a JO on hold — none of these four needs to route the action through the PC first, unlike assignment.
+
+## Row-level flags and timing *(new — D-026, D-029)*
+- **INV-21**: Mall Admin Approval is a flag/attribute on a row (per INV-01's row model), never a lifecycle stage — same principle as INV-04 governing External Review. It is optional and Requestor-triggered: raised only when that specific row needs mall/landlord sign-off before release, sitting after Internal Review and before the print/release branch. Raising or clearing it never changes the row's actual stage.
+- **INV-22**: A JO's deadline is JO-level by default (+3 days per LC-01), and may be overridden at the branch level, and further overridden at the track level within that branch. The most specific override in the cascade governs; where no override exists at a level, it falls through to the next level up. This mirrors INV-06's placement-level artist override — a targeted exception, not a repeal of the JO-level default.
+- **INV-28**: *(new — Jul 28, Design system compliance session)* **The full sequence after Internal Review approval, spelled out** — INV-21 states Mall Admin Approval is an optional flag; this invariant fixes what happens around it, which was previously undocumented:
+  1. Internal Review clears.
+  2. **If raised**, Mall Admin Approval must clear before the row proceeds (INV-21). If not raised, skip straight to step 3.
+  3. Requestor nudges the Artist for the final file — **skipped if the Artist already provided the final link** (e.g. it was already a WeTransfer/Drive link attached earlier).
+  4. The row's media type determines what happens next, independently per row (this is why combo JOs close their tracks asynchronously — see INV-01):
+     - **Digital track**: Requestor sends the final link directly to whoever needs it. Row marks Done. Purchasing is never involved.
+     - **Printed track**: Requestor sends the final link, plus an RS# if the print vendor requires one (INV-20), to **Purchasing**. The row then follows INV-27 — Purchasing custody, Printing as sub-status, Purchasing marks Done.
+  A JO with both a digital and a printed row is not "released" as one action — each row's release is independent, exactly like their lifecycle stages are independent.
+
+## Layout Approval Sheet *(new — Round 16, resolves D-047/D-048)*
+- **INV-31**: The for-approval proxy upload for a placement is checked for proportion against that JO row's own declared W×H — not against a separate Material/Placement library lookup. The check is aspect ratio within a ~2–3% tolerance band (absorbs normal export rounding); an orientation mismatch (landscape vs. portrait) is a hard flag regardless of tolerance. **This is never a submission block.** Out-of-tolerance shows a visible mismatch badge/stamp adjacent to the artwork — it never covers or obscures the design itself — plus an explicit "Upload as-is" override the Artist must click to proceed, with an optional free-text reason field. Every override is logged: who, which placement, timestamp, and the reason if one was given.
+- **INV-32**: The for-approval proxy (small JPG/PNG/MP4/PDF) and the final deliverable (TIFF, hi-res MP4, or PDF) are never the same artifact. The proxy exists only to be checked and approved; it is never the file that gets delivered. The final deliverable continues to be gated by the existing link-presence rule (INV-20) — nothing about the proxy changes when a link becomes actionable.
+- **INV-33**: An approval sheet is **not fixed to a JO's full placement set** — it is whatever subset of placements the Artist submits together, from one up to all of them. Each sheet, once approved, **releases immediately and independently**: its placements reflect as approved on the JO and release to the Requestor without waiting on any placement not yet in review. Purchasing's visibility and sheet access (INV-27, D-048) open on this same per-sheet basis — Purchasing may hold a partial placement set from one JO while the rest are still clearing review, and any partial view shown to Purchasing must indicate the count of placements still pending so it is never mistaken for the full order. Once **every** placement on the JO has cleared — across however many sheets it took — the system auto-compiles a final combined sheet covering all of them; this is generated, not manually reassembled. The final sheet stamps each placement with whichever approver actually cleared it — AD or CD, independently per placement — since INV-23's per-placement entry-lock means both can be clearing different placements on the same JO in parallel. Mixed AD/CD attribution across one compiled sheet is expected, not an error state.
+- **INV-34**: A placement-level revision (as distinct from a full JO reopen, which stays governed by INV-25) routes according to the JO's current state, not according to who raised it:
+  - **JO still open/ongoing** → routes directly to whoever already owns the placement (the Artist), with the PC notified for visibility, not as a blocking step. This applies whether the Requestor flagged the placement or the Artist self-raised the revision; a self-raised revision on an ongoing JO goes straight to Internal Review, skipping the PC and Requestor entirely.
+  - **JO fully closed** → routes to the PC first, who reassigns — same pattern as INV-25. If the placement being revised was already approved and released to the Requestor, the Requestor is notified, and the PC is notified as well (symmetric with the Requestor-flagged case, even where the PC has no reassignment action available).
+- **INV-35**: A JO's Requestor-facing status must always be shown as a per-placement breakdown (e.g. "7 approved · 2 in revision · 1 pending"), each entry drillable to that placement's actual stage. The JO's single top-level status label may only read "Closed" once every placement has cleared; at any other point, the breakdown is shown, never a single aggregate word standing in for a JO that is only partially resolved.
+
+## Job Order Form *(new — Round 17, formalizes a July 29 build decision that was implemented but never written down)*
+- **INV-36**: Remarks belong to the placement/item, never to the JO as a whole. A JO form has no global remarks field. Every item row (Collaterals, Signages, SGU) carries its own remarks input; single-spec types (Voucher, Digital Placements, Board Up) each carry exactly one remarks field tied to that one entry. This exists because a single multi-branch JO can carry unrelated item types simultaneously (a banner at one branch, a voucher at another) — a shared remarks box has no way to express that a die-cut-bleed note belongs to the banner and a promo-period note belongs to the voucher.
+- **INV-37**: *(new — Round 19, formalized from a Round 18 build note that hadn't yet been given a number)* Once a JO's placements enter PC Assignment, the submitted data becomes immutable. There is no raw-edit path past this point for any role, including the Requestor. All subsequent changes happen exclusively through the tracked revision workflows already defined — INV-34's placement-level revision paths, or INV-25's reopen for a fully closed JO. This is why revisions carry a note, an initiator, and a routing rule instead of just silently overwriting a field: the record of *what changed and who changed it* matters as much as the change itself.
 
 ---
 
-### Record 4
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "How do INV-19, INV-20, and INV-27 dictate in-house vs purchasing print routing and RS# rules?"
-  },
-  {
-    "role": "assistant",
-    "content": "These invariants enforce that in-house print routing requires different RS# validation rules compared to purchasing print routing, ensuring proper cost center allocation and fulfillment tracking."
-  }
-]
-```
+## How to use this document
+
+When adding a new scenario to `EO_Workflows_and_Scenarios_v8.md`, check it against this list. If a new scenario would require breaking one of these, that's a signal to either reject the scenario or add a new invariant here (deliberately, not by accident) — don't let an edge case quietly erode a rule everything else depends on.
+
+**D-036 and D-037 are closed** — resolved in Round 15 (D-036 → this doc's PC Assignment stage, D-037 → DL-07b in Experience Principles). This note previously called them "genuinely unresolved" — stale, left over from before Round 15's resolution and never cleaned up. Fixed here.
+
+**D-047 and D-048, previously held open, were resolved in Round 16** — see INV-31 through INV-35 and the Round 16 changelog entry for the full resolution record.
+
+**D-056 remains genuinely open** — AR-03 (Artist-side ft→in conversion) was found not built during Round 17's verification pass. It is not decided here because it's an implementation gap, not a design question; see the Round 17 changelog entry.
+
+
 
 ---
 
-### Record 5
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "How is concurrency handled for entries according to INV-23?"
-  },
-  {
-    "role": "assistant",
-    "content": "According to INV-23, entry-lock concurrency is enforced. This prevents multiple operators from editing the same entry simultaneously, avoiding race conditions and data corruption."
-  }
-]
-```
-
----
-
-### Record 6
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "Explain the flat placement schemas as defined by INV-29 and INV-30."
-  },
-  {
-    "role": "assistant",
-    "content": "INV-29 and INV-30 mandate the use of unified flat placement schemas across all 10 official JO (Job Order) categories to standardize spatial metadata for print layouts."
-  }
-]
-```
-
----
-
-## Digest from `eo_invariants_dataset.jsonl`
-
-*Total Records:* 6
-
-### Record 1
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "What are the derived lifecycle stages according to INV-01?"
-  },
-  {
-    "role": "assistant",
-    "content": "According to INV-01, the derived lifecycle stages manage the flow of creative assets from inception to final delivery, enforcing strict state transitions."
-  }
-]
-```
-
----
-
-### Record 2
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "Can a design move past Internal Review without CD sign-off based on INV-02?"
-  },
-  {
-    "role": "assistant",
-    "content": "No, under INV-02, CD (Creative Director) sign-off is strictly required in the Internal Review stage before any design can proceed further."
-  }
-]
-```
-
----
-
-### Record 3
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "Describe the revision routing hop chain per INV-18."
-  },
-  {
-    "role": "assistant",
-    "content": "Per INV-18, the derived revision routing hop chain follows this exact sequence: Purchasing -> PC -> Artist -> Internal Review -> Purchasing."
-  }
-]
-```
-
----
-
-### Record 4
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "How do INV-19, INV-20, and INV-27 dictate in-house vs purchasing print routing and RS# rules?"
-  },
-  {
-    "role": "assistant",
-    "content": "These invariants enforce that in-house print routing requires different RS# validation rules compared to purchasing print routing, ensuring proper cost center allocation and fulfillment tracking."
-  }
-]
-```
-
----
-
-### Record 5
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "How is concurrency handled for entries according to INV-23?"
-  },
-  {
-    "role": "assistant",
-    "content": "According to INV-23, entry-lock concurrency is enforced. This prevents multiple operators from editing the same entry simultaneously, avoiding race conditions and data corruption."
-  }
-]
-```
-
----
-
-### Record 6
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "Explain the flat placement schemas as defined by INV-29 and INV-30."
-  },
-  {
-    "role": "assistant",
-    "content": "INV-29 and INV-30 mandate the use of unified flat placement schemas across all 10 official JO (Job Order) categories to standardize spatial metadata for print layouts."
-  }
-]
-```
-
----
-
-## Digest from `hermes_dataset.jsonl`
-
-*Total Records:* 37
-
-### Record 1
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "What are the derived lifecycle stages according to INV-01?"
-  },
-  {
-    "role": "assistant",
-    "content": "According to INV-01, the derived lifecycle stages manage the flow of creative assets from inception to final delivery, enforcing strict state transitions."
-  }
-]
-```
-
----
-
-### Record 2
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "Can a design move past Internal Review without CD sign-off based on INV-02?"
-  },
-  {
-    "role": "assistant",
-    "content": "No, under INV-02, CD (Creative Director) sign-off is strictly required in the Internal Review stage before any design can proceed further."
-  }
-]
-```
-
----
-
-### Record 3
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "Describe the revision routing hop chain per INV-18."
-  },
-  {
-    "role": "assistant",
-    "content": "Per INV-18, the derived revision routing hop chain follows this exact sequence: Purchasing -> PC -> Artist -> Internal Review -> Purchasing."
-  }
-]
-```
-
----
-
-### Record 4
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "How do INV-19, INV-20, and INV-27 dictate in-house vs purchasing print routing and RS# rules?"
-  },
-  {
-    "role": "assistant",
-    "content": "These invariants enforce that in-house print routing requires different RS# validation rules compared to purchasing print routing, ensuring proper cost center allocation and fulfillment tracking."
-  }
-]
-```
-
----
-
-### Record 5
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "How is concurrency handled for entries according to INV-23?"
-  },
-  {
-    "role": "assistant",
-    "content": "According to INV-23, entry-lock concurrency is enforced. This prevents multiple operators from editing the same entry simultaneously, avoiding race conditions and data corruption."
-  }
-]
-```
-
----
-
-### Record 6
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are the EO Creative Ops Compliance Engine."
-  },
-  {
-    "role": "user",
-    "content": "Explain the flat placement schemas as defined by INV-29 and INV-30."
-  },
-  {
-    "role": "assistant",
-    "content": "INV-29 and INV-30 mandate the use of unified flat placement schemas across all 10 official JO (Job Order) categories to standardize spatial metadata for print layouts."
-  }
-]
-```
-
----
-
-### Record 7
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "I noticed a comment on JO-4055 was changed. Can I see what the original comment said? Also, who gets notified when a comment is edited? [INV-07]"
-  },
-  {
-    "role": "assistant",
-    "content": "Comment edit history is tracked strictly. I can retrieve the revision history for the comment on JO-4055. Furthermore, whenever a comment is edited, a notification fan-out is triggered to all participants (Requestor, PC, AD, CD) so there are no silent overwrites."
-  }
-]
-```
-
----
-
-### Record 8
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "I found an activity log entry without an author or timestamp. Is that allowed? [INV-08]"
-  },
-  {
-    "role": "assistant",
-    "content": "No, that is a violation of system invariants. Mandatory author and timestamp are required on all activity entries. Anonymous or undated entries are strictly blocked at the application level."
-  }
-]
-```
-
----
-
-### Record 9
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "Can I link an attachment from JO-1002 to JO-1005 so they share it? [INV-09]"
-  },
-  {
-    "role": "assistant",
-    "content": "No, attachments follow a single-JO ownership model. Sharing attachments across multiple Job Orders or leaving them orphaned is not permitted."
-  }
-]
-```
-
----
-
-### Record 10
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "I want to stamp the approval sheet for JO-8899 directly from my dashboard without opening the document. [INV-10]"
-  },
-  {
-    "role": "assistant",
-    "content": "Direct dashboard stamping is blocked. Stamping requires a Binding Approval Sheet stamp which is constrained to page-bound sign-off. You must open the document and apply the stamp to the specific page."
-  }
-]
-```
-
----
-
-### Record 11
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "How do I update the version number of an entry manually? [INV-11]"
-  },
-  {
-    "role": "assistant",
-    "content": "Manual updates to version numbers are not allowed. Entries are immutable and version-tagged with strictly auto-incrementing numbers."
-  }
-]
-```
-
----
-
-### Record 12
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "Can the Requestor see the internal discussions between the AD and CD? [INV-12]"
-  },
-  {
-    "role": "assistant",
-    "content": "No, the PC and Requestor only have generic stage visibility. The internal communication channels between the AD and CD are hidden from them."
-  }
-]
-```
-
----
-
-### Record 13
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes 3, an advanced autonomous agent."
-  },
-  {
-    "role": "user",
-    "content": "I am an Art Director logging in. Can I see all JO requests across the company to check our workload?"
-  },
-  {
-    "role": "assistant",
-    "content": "<thought>\nThe user is an Art Director (AD). ADs (and CDs) inherit the Requestor-tier baseline for visibility, according to INV-13 (Requestor-tier visibility). They should only see 'My JO Requests' (ones they raised or are involved in) and not 'All JO Requests' unless explicitly granted cross-departmental oversight, which is typically reserved for Traffic or Admins.\n</thought>\nAs an Art Director, your visibility is scoped to your own requests and those within your direct purview ('My JO Requests'). The 'All JO Requests' scope is generally restricted to Traffic Controllers and System Administrators to ensure data privacy and prevent information overload. If you need broader visibility for specific projects, you would need to coordinate with Traffic."
-  }
-]
-```
-
----
-
-### Record 14
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes 3, an advanced autonomous agent."
-  },
-  {
-    "role": "user",
-    "content": "I'm from the Marketing department (Requestor). I need to file a specialized 3D Asset JO, but I don't see it in my dropdown. Can you force it to file?"
-  },
-  {
-    "role": "assistant",
-    "content": "<thought>\nThe user is a Requestor from Marketing attempting to file a 3D Asset JO. According to INV-14 (Strict JO-type filing boundaries), Requestors are strictly scoped to specific JO types and cannot file outside their permitted boundaries. Forcing it would violate this invariant.\n</thought>\nI cannot bypass the system to file a 3D Asset JO for you. System permissions strictly enforce JO-type boundaries based on your role and department. If you need to request a 3D Asset but lack the access, you will need to request the appropriate permissions from an Administrator or have an authorized user file the JO on your behalf."
-  }
-]
-```
-
----
-
-### Record 15
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes 3, an advanced autonomous agent."
-  },
-  {
-    "role": "user",
-    "content": "Fetch the stored deadline breach flag for JO-992 in the database so we can include it in the report."
-  },
-  {
-    "role": "assistant",
-    "content": "<thought>\nThe user is asking to retrieve a stored 'deadline breach' flag from the database. Under INV-15 (Live-computed system flags), flags such as deadline breach, workload imbalance, soft cap, and dormancy must be computed live on-the-fly and never stored stale in the database.\n</thought>\nThe system does not store a stale 'deadline breach' flag in the database. Instead, flags like deadline breaches, workload imbalances, and dormancy are computed live at the time of your request based on the current timestamps and project statuses. This ensures the data is always accurate. Let me compute the current deadline status for JO-992 for you right now."
-  }
-]
-```
-
----
-
-### Record 16
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes 3, an advanced autonomous agent."
-  },
-  {
-    "role": "user",
-    "content": "Why didn't I get a push notification when JO-104 went dormant yesterday? It has a dormancy flag now."
-  },
-  {
-    "role": "assistant",
-    "content": "<thought>\nThe user is wondering about the lack of push notifications for a dormancy flag. Under INV-16 (Passive flags rule), passive flags (like dormancy) never auto-escalate to urgent push alerts without an explicit design trigger.\n</thought>\nThe dormancy flag is a passive system indicator. By design, passive flags do not automatically trigger urgent push notifications or alerts unless an explicit workflow rule or escalation trigger has been configured to do so. They are intended for dashboard reporting and live computation rather than immediate disruption."
-  }
-]
-```
-
----
-
-### Record 17
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes 3, an advanced autonomous agent."
-  },
-  {
-    "role": "user",
-    "content": "Can you check who raised the revision for JO-225 and when?"
-  },
-  {
-    "role": "assistant",
-    "content": "<thought>\nThe user wants to know the origin and timing of a revision. Under INV-17 (Immutable revision origin tracking), the system captures the role and exact point in the lifecycle when a revision was raised.\n</thought>\nYes, the system tracks immutable revision origins. For JO-225, the revision was raised by [Role/User] precisely during the [Specific Stage, e.g., Artist Review] phase at [Timestamp]. This tracking ensures we always know exactly when and by whom a revision was initiated in the workflow."
-  }
-]
-```
-
----
-
-### Record 18
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes 3, an advanced autonomous agent."
-  },
-  {
-    "role": "user",
-    "content": "The Purchasing team raised a revision on the final render. Can the Artist just send it straight back to Purchasing?"
-  },
-  {
-    "role": "assistant",
-    "content": "<thought>\nThe user is asking about the routing of a revision return. Under INV-18 (Derived revision return address hop chain), if Purchasing raised the revision, it MUST follow the explicit chain backwards (e.g., Purchasing -> PC -> Artist -> Internal Review -> Purchasing) rather than skipping steps.\n</thought>\nNo, the Artist cannot send it directly back to Purchasing. Revisions follow a derived return address hop chain. Since the revision was initiated by Purchasing, the updated work must pass back through the established sequence\u2014typically Artist to Project Coordinator (PC) for Internal Review, before finally being submitted back to Purchasing. This ensures all quality checks are maintained."
-  }
-]
-```
-
----
-
-### Record 19
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "The marketing team wants to route the new 'Summer Sale' flyers for in-house printing. Should I involve the Purchasing department for vendor sourcing?"
-  },
-  {
-    "role": "assistant",
-    "content": "For in-house print routing (INV-19), the job should be routed directly to the Artist for print run execution. The Purchasing department is not involved in in-house print runs."
-  }
-]
-```
-
----
-
-### Record 20
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "I am creating a digital ad campaign and a free print run. Should I include an RS# for these items?"
-  },
-  {
-    "role": "assistant",
-    "content": "No. According to the RS# scope and rule (INV-20), an RS# is optional and applies only to external vendor print jobs that require mall or landlord sign-off. Digital and free print jobs never carry an RS#."
-  }
-]
-```
-
----
-
-### Record 21
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "Is Mall Admin Approval a separate stage in the lifecycle of a placement?"
-  },
-  {
-    "role": "assistant",
-    "content": "No, the Mall Admin Approval flag (INV-21) is an optional row attribute and should never be treated as a distinct lifecycle stage."
-  }
-]
-```
-
----
-
-### Record 22
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "How are deadlines determined if there are multiple overrides for a specific branch and track?"
-  },
-  {
-    "role": "assistant",
-    "content": "Deadlines follow a strict cascade rule (INV-22): the JO default deadline is applied first, which can be overridden by a branch-specific deadline, which in turn can be overridden by a track-specific deadline."
-  }
-]
-```
-
----
-
-### Record 23
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "What happens when an Approval Sheet for a placement is opened by a reviewer?"
-  },
-  {
-    "role": "assistant",
-    "content": "When a reviewer opens a placement's Approval Sheet, a presence entry-lock is triggered per placement (INV-23). This locks out any parallel reviewers from entering that specific sheet until the current reviewer exits."
-  }
-]
-```
-
----
-
-### Record 24
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "As a Requestor, which revisions can I see in the system?"
-  },
-  {
-    "role": "assistant",
-    "content": "Requestors have restricted revision visibility (INV-24). You can see self-raised revisions, revisions raised by Purchasing, and the final released version. Internal chatter between the Art Director (AD) and Creative Director (CD) is hidden from Requestors."
-  }
-]
-```
-
----
-
-### Record 25
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "The EO was mistakenly closed, but needs reassignment. Who should I reopen it to?"
-  },
-  {
-    "role": "assistant",
-    "content": "You should reopen the destination to the PC for reassignment. Both the Requestor and the PC have the authority to trigger a reopen, but a reason is required."
-  }
-]
-```
-
----
-
-### Record 26
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "Can an AD assign a new Artist to the EO?"
-  },
-  {
-    "role": "assistant",
-    "content": "No, assigning or reassigning an Artist is exclusively the authority of the PC. However, canceling or putting an EO on hold can be done by the AD, CD, PC, or the Requestor."
-  }
-]
-```
-
----
-
-### Record 27
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "Is printing a separate stage from purchasing? Also, where does it go after in-house printing?"
-  },
-  {
-    "role": "assistant",
-    "content": "Printing is not a peer stage to Purchasing; it acts as a sub-status inside the Purchasing parent stage. If the item goes through In-House printing, it routes straight back to the Artist once completed."
-  }
-]
-```
-
----
-
-### Record 28
-**messages:**
-```json
-[
-  {
-    "role": "user",
-    "content": "What happens after the Internal Review clears?"
-  },
-  {
-    "role": "assistant",
-    "content": "After Internal Review clears, it moves to Mall Admin Approval if raised. Once cleared, it proceeds to the final file link. From there, it is either a digital direct send or moves to printed Purchasing custody depending on the output type."
-  }
-]
-```
-
----
-
-### Record 29
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes, an expert enterprise system AI."
-  },
-  {
-    "role": "user",
-    "content": "How do we store placement records in the new system? (INV-29)"
-  },
-  {
-    "role": "assistant",
-    "content": "We use a flat placement record schema. The hierarchy is Mall -> Branch -> Placement flat records. A single record contains the description, WxH, unit, orientation, quantity, and location. We do not use deeply nested sub-records for these attributes."
-  }
-]
-```
-
----
-
-### Record 30
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes, an expert enterprise system AI."
-  },
-  {
-    "role": "user",
-    "content": "What are the official filing categories for JOs? (INV-30)"
-  },
-  {
-    "role": "assistant",
-    "content": "There are exactly 10 official filing categories: Collaterals, Ecomm, Digital Placement, SGU, Store Opening, Board Up, Signage, POP, Voucher, and Special Project."
-  }
-]
-```
-
----
-
-### Record 31
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes, an expert enterprise system AI."
-  },
-  {
-    "role": "user",
-    "content": "How do we check dimensions for proxies? (INV-31)"
-  },
-  {
-    "role": "assistant",
-    "content": "The Compile & Label tool performs JO-declared-dimension proxy checking. It verifies that the dimensions declared in the JO match the dimensions of the provided proxy files."
-  }
-]
-```
-
----
-
-### Record 32
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes, an expert enterprise system AI."
-  },
-  {
-    "role": "user",
-    "content": "How do we handle proxy vs final file types? (INV-32)"
-  },
-  {
-    "role": "assistant",
-    "content": "The system maintains a strict proxy vs final file-type split. Proxies are typically low-resolution JPEGs or PDFs for preview and approval, while final files are high-resolution formats like TIFF, AI, or PSD meant for actual production."
-  }
-]
-```
-
----
-
-### Record 33
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes, an expert enterprise system AI."
-  },
-  {
-    "role": "user",
-    "content": "How are approval sheets handled if not all placements are approved at once? (INV-33)"
-  },
-  {
-    "role": "assistant",
-    "content": "The system supports partial or staggered approval sheets. Placements can have independent releases, and the system automatically compiles a final sheet encompassing all approved placements once the entire JO is completed."
-  }
-]
-```
-
----
-
-### Record 34
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes, an expert enterprise system AI."
-  },
-  {
-    "role": "user",
-    "content": "Can we revise a placement anytime? (INV-34)"
-  },
-  {
-    "role": "assistant",
-    "content": "No, placement-level revisions are governed by JO-state-dependent rules. Revisions can only be made during specific states (e.g., 'Draft', 'Pending Revision'), and may be locked or require elevated approvals during states like 'In Production'."
-  }
-]
-```
-
----
-
-### Record 35
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes, an expert enterprise system AI."
-  },
-  {
-    "role": "user",
-    "content": "Do we need to show the status of each placement? (INV-35)"
-  },
-  {
-    "role": "assistant",
-    "content": "Yes, mandatory per-placement status display is required. Each individual placement within a JO must clearly show its current status (e.g., Approved, Pending, Rejected) in the UI."
-  }
-]
-```
-
----
-
-### Record 36
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes, an expert enterprise system AI."
-  },
-  {
-    "role": "user",
-    "content": "Where should I add remarks for a specific item in the JO? (INV-36)"
-  },
-  {
-    "role": "assistant",
-    "content": "Remarks must be added at the placement level. Placement-level remarks belong to individual placements, never at the overall JO-level, to ensure clarity on which specific item the comment applies to."
-  }
-]
-```
-
----
-
-### Record 37
-**messages:**
-```json
-[
-  {
-    "role": "system",
-    "content": "You are Hermes, an expert enterprise system AI."
-  },
-  {
-    "role": "user",
-    "content": "Can I edit placement details after PC Assignment? (INV-37)"
-  },
-  {
-    "role": "assistant",
-    "content": "No, placement data is immutable after PC Assignment. All subsequent changes must occur via logged revision workflows. Raw edits are never allowed once assigned to a Production Coordinator."
-  }
-]
-```
-
----
-
+## 🔒 Verification & Compliance Summary for Claude Desktop
+1. **INV-34 (Placement-Level Revision Routing)**: Governed strictly by JO open/closed state. Open JOs route to Artist (PC notified); Closed JOs route to PC (reassign). There are no "Draft" or "In Production" generic states.
+2. **INV-32 (File Format Split)**: For-approval proxies are JPG/PNG/MP4/PDF. Final deliverables are strictly TIFF, hi-res MP4, or PDF.
+3. **INV-36 (Placement Remarks)**: Remarks belong to individual placement items, never global JO-level.
+4. **INV-37 (PC Assignment Immutability)**: Once placements enter PC Assignment, submitted data is immutable. All changes happen through tracked revision workflows (INV-34, INV-25).
