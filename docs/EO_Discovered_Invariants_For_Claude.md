@@ -1,15 +1,3 @@
-# EO Creative Ops — Verbatim System Invariants & Platform Spec Digest
-
-**Generated At:** 2026-08-03 14:11:42  
-**Authoritative Source:** `EO_System_Invariants_v8.md` (v8 — Round 19, July 30 2026)  
-**Status:** 100% Verbatim & Anchored to Official Docs (Zero Model Paraphrasing / Zero Synthetic Filler)
-
-> **Notice for Claude Desktop:** This document contains the exact, un-altered, verbatim text of all **37 System Invariants (INV-01 to INV-37)** from `EO_System_Invariants_v8.md`. Treat this document as authoritative source truth alongside `EO_System_Invariants_v8.md`.
-
----
-
-## 📌 37 System Invariants (Verbatim from `EO_System_Invariants_v8.md`)
-
 # EO Creative Ops — System Invariants
 **v8 — Round 19, July 30 2026. Formalizes INV-37: once a JO's placements enter PC Assignment, submitted data is immutable — all further change happens through the revision workflows already defined (INV-34, INV-25), never a raw edit. This had been sitting as an informal Round 18 note; an external review correctly flagged it as architecture, not just an API convention, so it's given a real invariant number here.**
 
@@ -117,12 +105,3 @@ When adding a new scenario to `EO_Workflows_and_Scenarios_v8.md`, check it again
 
 **D-056 remains genuinely open** — AR-03 (Artist-side ft→in conversion) was found not built during Round 17's verification pass. It is not decided here because it's an implementation gap, not a design question; see the Round 17 changelog entry.
 
-
-
----
-
-## 🔒 Verification & Compliance Summary for Claude Desktop
-1. **INV-34 (Placement-Level Revision Routing)**: Governed strictly by JO open/closed state. Open JOs route to Artist (PC notified); Closed JOs route to PC (reassign). There are no "Draft" or "In Production" generic states.
-2. **INV-32 (File Format Split)**: For-approval proxies are JPG/PNG/MP4/PDF. Final deliverables are strictly TIFF, hi-res MP4, or PDF.
-3. **INV-36 (Placement Remarks)**: Remarks belong to individual placement items, never global JO-level.
-4. **INV-37 (PC Assignment Immutability)**: Once placements enter PC Assignment, submitted data is immutable. All changes happen through tracked revision workflows (INV-34, INV-25).
