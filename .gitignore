@@ -1,0 +1,17 @@
+# Python / Byte-compiled
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+
+# Environment & Temp
+.env
+*.log
+.DS_Store
+
+# Git keeps datasets/ directory structure intact
+# Large binary artifacts
+*.zip
+*.tar.gz
