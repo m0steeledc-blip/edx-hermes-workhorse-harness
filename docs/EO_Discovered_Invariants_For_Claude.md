@@ -1,6 +1,6 @@
 # EO Creative Ops - Discovered Invariants Digest
 
-**Generated At:** 2026-08-03 14:01:22
+**Generated At:** 2026-08-03 14:02:12
 
 > **Notice for Claude:** This digest contains the latest harvested trajectories, invariant validations, edge cases, and web app recommendations for the EO Creative Ops platform. Please absorb this context fully to stay up-to-date.
 
@@ -266,7 +266,7 @@
 
 ## Digest from `hermes_dataset.jsonl`
 
-*Total Records:* 18
+*Total Records:* 24
 
 ### Record 1
 **messages:**
@@ -616,6 +616,108 @@
   {
     "role": "assistant",
     "content": "<thought>\nThe user is asking about the routing of a revision return. Under INV-18 (Derived revision return address hop chain), if Purchasing raised the revision, it MUST follow the explicit chain backwards (e.g., Purchasing -> PC -> Artist -> Internal Review -> Purchasing) rather than skipping steps.\n</thought>\nNo, the Artist cannot send it directly back to Purchasing. Revisions follow a derived return address hop chain. Since the revision was initiated by Purchasing, the updated work must pass back through the established sequence\u2014typically Artist to Project Coordinator (PC) for Internal Review, before finally being submitted back to Purchasing. This ensures all quality checks are maintained."
+  }
+]
+```
+
+---
+
+### Record 19
+**messages:**
+```json
+[
+  {
+    "role": "user",
+    "content": "The marketing team wants to route the new 'Summer Sale' flyers for in-house printing. Should I involve the Purchasing department for vendor sourcing?"
+  },
+  {
+    "role": "assistant",
+    "content": "For in-house print routing (INV-19), the job should be routed directly to the Artist for print run execution. The Purchasing department is not involved in in-house print runs."
+  }
+]
+```
+
+---
+
+### Record 20
+**messages:**
+```json
+[
+  {
+    "role": "user",
+    "content": "I am creating a digital ad campaign and a free print run. Should I include an RS# for these items?"
+  },
+  {
+    "role": "assistant",
+    "content": "No. According to the RS# scope and rule (INV-20), an RS# is optional and applies only to external vendor print jobs that require mall or landlord sign-off. Digital and free print jobs never carry an RS#."
+  }
+]
+```
+
+---
+
+### Record 21
+**messages:**
+```json
+[
+  {
+    "role": "user",
+    "content": "Is Mall Admin Approval a separate stage in the lifecycle of a placement?"
+  },
+  {
+    "role": "assistant",
+    "content": "No, the Mall Admin Approval flag (INV-21) is an optional row attribute and should never be treated as a distinct lifecycle stage."
+  }
+]
+```
+
+---
+
+### Record 22
+**messages:**
+```json
+[
+  {
+    "role": "user",
+    "content": "How are deadlines determined if there are multiple overrides for a specific branch and track?"
+  },
+  {
+    "role": "assistant",
+    "content": "Deadlines follow a strict cascade rule (INV-22): the JO default deadline is applied first, which can be overridden by a branch-specific deadline, which in turn can be overridden by a track-specific deadline."
+  }
+]
+```
+
+---
+
+### Record 23
+**messages:**
+```json
+[
+  {
+    "role": "user",
+    "content": "What happens when an Approval Sheet for a placement is opened by a reviewer?"
+  },
+  {
+    "role": "assistant",
+    "content": "When a reviewer opens a placement's Approval Sheet, a presence entry-lock is triggered per placement (INV-23). This locks out any parallel reviewers from entering that specific sheet until the current reviewer exits."
+  }
+]
+```
+
+---
+
+### Record 24
+**messages:**
+```json
+[
+  {
+    "role": "user",
+    "content": "As a Requestor, which revisions can I see in the system?"
+  },
+  {
+    "role": "assistant",
+    "content": "Requestors have restricted revision visibility (INV-24). You can see self-raised revisions, revisions raised by Purchasing, and the final released version. Internal chatter between the Art Director (AD) and Creative Director (CD) is hidden from Requestors."
   }
 ]
 ```
