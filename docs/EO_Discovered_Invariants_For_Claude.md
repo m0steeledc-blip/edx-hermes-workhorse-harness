@@ -1,6 +1,6 @@
 # EO Creative Ops - Discovered Invariants Digest
 
-**Generated At:** 2026-08-03 14:02:12
+**Generated At:** 2026-08-03 14:02:50
 
 > **Notice for Claude:** This digest contains the latest harvested trajectories, invariant validations, edge cases, and web app recommendations for the EO Creative Ops platform. Please absorb this context fully to stay up-to-date.
 
@@ -266,7 +266,7 @@
 
 ## Digest from `hermes_dataset.jsonl`
 
-*Total Records:* 24
+*Total Records:* 28
 
 ### Record 1
 **messages:**
@@ -718,6 +718,74 @@
   {
     "role": "assistant",
     "content": "Requestors have restricted revision visibility (INV-24). You can see self-raised revisions, revisions raised by Purchasing, and the final released version. Internal chatter between the Art Director (AD) and Creative Director (CD) is hidden from Requestors."
+  }
+]
+```
+
+---
+
+### Record 25
+**messages:**
+```json
+[
+  {
+    "role": "user",
+    "content": "The EO was mistakenly closed, but needs reassignment. Who should I reopen it to?"
+  },
+  {
+    "role": "assistant",
+    "content": "You should reopen the destination to the PC for reassignment. Both the Requestor and the PC have the authority to trigger a reopen, but a reason is required."
+  }
+]
+```
+
+---
+
+### Record 26
+**messages:**
+```json
+[
+  {
+    "role": "user",
+    "content": "Can an AD assign a new Artist to the EO?"
+  },
+  {
+    "role": "assistant",
+    "content": "No, assigning or reassigning an Artist is exclusively the authority of the PC. However, canceling or putting an EO on hold can be done by the AD, CD, PC, or the Requestor."
+  }
+]
+```
+
+---
+
+### Record 27
+**messages:**
+```json
+[
+  {
+    "role": "user",
+    "content": "Is printing a separate stage from purchasing? Also, where does it go after in-house printing?"
+  },
+  {
+    "role": "assistant",
+    "content": "Printing is not a peer stage to Purchasing; it acts as a sub-status inside the Purchasing parent stage. If the item goes through In-House printing, it routes straight back to the Artist once completed."
+  }
+]
+```
+
+---
+
+### Record 28
+**messages:**
+```json
+[
+  {
+    "role": "user",
+    "content": "What happens after the Internal Review clears?"
+  },
+  {
+    "role": "assistant",
+    "content": "After Internal Review clears, it moves to Mall Admin Approval if raised. Once cleared, it proceeds to the final file link. From there, it is either a digital direct send or moves to printed Purchasing custody depending on the output type."
   }
 ]
 ```
